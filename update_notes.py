@@ -17,17 +17,21 @@ downloads_path = sys.argv[1]
 print(downloads_path)
 
 # Path to the destination folder
-destination_path = 'G:\\My Drive\\tom_materials\\Topics\\'
-print(destination_path)
+reading_notes_path = 'G:\\My Drive\\overleaf\\Reading Notes\\'
+course_notes_path = 'G:\\My Drive\\overleaf\\Course Notes\\'
 
 crosswalk = pd.read_csv(script_path + "\\overleaf_crosswalk.csv")
 crosswalk = crosswalk.to_dict(orient='records')
 
 # Iterate through the files in the Downloads folder
 for file in crosswalk:
-    # Construct the full file paths
     old_file_path = os.path.join(downloads_path, file['download_name'] + ".pdf")
-    new_file_path = os.path.join(destination_path + file['subfolder'], file['correct_name'] + ".pdf")
+    
+    if file['type'] == "Reading Notes":
+        new_file_path = os.path.join(reading_notes_path, file['correct_name'] + ".pdf")
+    elif file['type'] == "Course Notes":
+        new_file_path = os.path.join(course_notes_path, file['correct_name'] + ".pdf")
+        continue
 
     # Move and rename the file
     #os.rename(old_file_path, new_file_path)
